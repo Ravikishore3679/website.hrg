@@ -357,22 +357,27 @@ nav ul li a:hover {
     max-width: 600px;
 }
 
+/* --- Corrected Interactive Form Layout --- */
 .interactive-form {
     max-width: 600px;
+    width: 100%;
     margin: 40px auto;
     background: rgba(255, 255, 255, 0.05);
     padding: 30px;
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left; /* Align fields correctly to the left */
 }
 
 .form-group {
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .interactive-form input, 
 .interactive-form textarea {
-    width: 100%;
+    display: block;
+    width: 100%; /* Forces input fields to expand full width */
     padding: 12px 15px;
     border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -380,23 +385,15 @@ nav ul li a:hover {
     font-family: 'Poppins', sans-serif;
     font-size: 0.95rem;
     color: #333;
-}
-
-.interactive-form input:focus, 
-.interactive-form textarea:focus {
-    outline: none;
-    border-color: #dda15e;
-    box-shadow: 0 0 5px rgba(221, 161, 94, 0.5);
+    box-sizing: border-box; /* Includes padding within width calculations */
 }
 
 .form-submit {
+    display: block;
     width: 100%;
     background-color: #dda15e !important;
     color: #283618 !important;
     border: none;
-}
-
-.form-submit:hover {
-    background-color: #fff !important;
-    color: #283618 !important;
+    padding: 14px;
+    font-size: 1rem;
 }
