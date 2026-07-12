@@ -348,3 +348,55 @@ nav ul li a:hover {
         font-size: 1.15rem;
     }
 }
+/* --- Interactive Map & Form Styling --- */
+.map-container {
+    margin: 30px auto;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    max-width: 600px;
+}
+
+.interactive-form {
+    max-width: 600px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.interactive-form input, 
+.interactive-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.interactive-form input:focus, 
+.interactive-form textarea:focus {
+    outline: none;
+    border-color: #dda15e;
+    box-shadow: 0 0 5px rgba(221, 161, 94, 0.5);
+}
+
+.form-submit {
+    width: 100%;
+    background-color: #dda15e !important;
+    color: #283618 !important;
+    border: none;
+}
+
+.form-submit:hover {
+    background-color: #fff !important;
+    color: #283618 !important;
+}
