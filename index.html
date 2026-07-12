@@ -93,11 +93,43 @@
         </div>
     </section>
 
-    <!-- Contact & Call to Action Section -->
+        <!-- Contact, Map & Interactive Form Section -->
     <section id="contact" class="contact container">
         <div class="contact-box">
             <h2>Ready to Plan Your Stay?</h2>
             <p>Connect directly with us to check availability, pricing options, and customizable event packages.</p>
+            
+            <!-- Google Maps Active Embed Widget -->
+            <div class="map-container">
+                <iframe 
+                    src="https://google.com" 
+                    width="100%" 
+                    height="300" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <!-- Working Interactive Contact Form via Formspree -->
+            <!-- REPLACE 'your_formspree_id' with your actual Formspree endpoint ID later -->
+            <form action="https://formspree.io" method="POST" class="interactive-form">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="_replyto" placeholder="Your Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Your Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" rows="4" placeholder="Tell us about your event / stay dates..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary form-submit">Send Inquiry</button>
+            </form>
+
             <div class="contact-details">
                 <div class="contact-phone">
                     <strong>Primary Contact:</strong> <a href="tel:+919666332255">9666332255</a>
@@ -110,6 +142,7 @@
             <p class="footer-note">&copy; 2026 The Heaven Rock Guest House. All Rights Reserved.</p>
         </div>
     </section>
+
 
 </body>
 </html>
