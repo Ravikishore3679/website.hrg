@@ -106,7 +106,15 @@
 
 
             </div>
-
+<div class="photo-gallery">
+    <!-- Flask will loop through every photo found in the database -->
+    {% for photo in photos %}
+        <div class="photo-item">
+            <h3>{{ photo['title'] }}</h3>
+            <img src="{{ photo['file_path'] }}" alt="{{ photo['alt_text'] }}" width="300">
+        </div>
+    {% endfor %}
+</div>
             <!-- Working Interactive Contact Form via Formspree -->
             <!-- REPLACE 'your_formspree_id' with your actual Formspree endpoint ID later -->
             <form action="https://formspree.io" method="POST" class="interactive-form">
