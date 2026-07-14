@@ -243,6 +243,14 @@ def handle_upload():
         conn.close()
         
     return redirect(url_for('home'))
+# Add this block right before "if __name__ == '__main__':"
+@app.after_request
+def add_header(response):
+    # Prevents browsers from storing layout state and dead asset links
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
