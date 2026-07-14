@@ -7,6 +7,22 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'static'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# Helper function to ensure the database and table always exist automatically
+def init_db_safely():
+    conn = sqlite3.connect('website.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS photos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        file_path TEXT NOT NULL,
+        alt_text TEXT,
+        uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
+    conn.commit()
+    conn.close()
+
 # ----------------------------------------------------
 # 1. THE MAIN GALLERY, AMENITIES, MAP & DELETE TEMPLATE
 # ----------------------------------------------------
@@ -70,7 +86,6 @@ INDEX_TEMPLATE = """
         .photo-text { padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
         .photo-text h3 { margin: 0 0 15px 0; font-size: 1.2rem; color: var(--primary-color); }
         
-        /* New Delete Button Style */
         .delete-btn { background-color: var(--white); color: var(--danger-color); border: 1px solid var(--danger-color); padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease; align-self: center; }
         .delete-btn:hover { background-color: var(--danger-color); color: var(--white); }
     </style>
@@ -99,7 +114,6 @@ INDEX_TEMPLATE = """
             </div>
         </div>
         <div>
-            <!-- Google Maps Web Navigation Shortcut Link -->
             <a href="https://google.com" target="_blank" class="map-btn">📍 Open in Google Maps</a>
         </div>
     </div>
@@ -153,7 +167,6 @@ INDEX_TEMPLATE = """
                 <img src="{{ photo['file_path'] }}" alt="{{ photo['alt_text'] }}">
                 <div class="photo-text">
                     <h3>{{ photo['title'] }}</h3>
-                    <!-- Dynamic form triggering the deletion of this photo card item by ID -->
                     <form action="/delete/{{ photo['id'] }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this photo?');">
                         <button type="submit" class="delete-btn">🗑️ Delete Photo</button>
                     </form>
@@ -175,6 +188,7 @@ UPLOAD_TEMPLATE = """
     <meta charset="UTF-8">
     <title>Admin Dashboard - The Heaven Rock</title>
     <style>
+
         body { font-family: sans-serif; background-color: #f4f6f4; margin: 40px; text-align: center; }
         .form-container { background: white; padding: 30px; border-radius: 8px; max-width: 400px; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .form-group { margin-bottom: 15px; text-align: left; }
