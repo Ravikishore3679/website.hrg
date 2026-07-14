@@ -256,6 +256,12 @@ if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
     app.run(debug=True)
+# Add this fallback route right above your existing delete function block
+@app.route('/delete/', methods=['POST'])
+@app.route('/delete', methods=['POST'])
+def delete_fallback():
+    # If a blank or broken ID is sent, ignore it and safely refresh the home gallery
+    return redirect(url_for('home'))
 
 @app.route('/delete/int:photo_id', methods=['POST'])
 def delete_photo(photo_id):
