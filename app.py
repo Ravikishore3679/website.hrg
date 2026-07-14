@@ -7,7 +7,98 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'static'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# HTML templates directly coded into the python server so directories never fail you again
+# ----------------------------------------------------
+# 1. THE MAIN GALLERY TEMPLATE (index.html)
+# ----------------------------------------------------
+INDEX_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Heaven Rock Guest House</title>
+    <style>
+        :root {
+            --primary-color: #1b3d2f; 
+            --accent-color: #c5a880;  
+            --text-dark: #222222;
+            --text-light: #666666;
+            --bg-light: #fdfdfd;
+            --white: #ffffff;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6;
+        }
+        .top-banner {
+            background-color: var(--primary-color); color: var(--white); text-align: center; padding: 10px 20px; font-size: 0.9rem; letter-spacing: 1px; font-weight: 600;
+        }
+        header { background-color: var(--white); box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04); position: sticky; top: 0; z-index: 1000; }
+        nav { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
+        nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; align-items: center; }
+        nav a { text-decoration: none; color: var(--text-light); font-weight: 500; transition: color 0.3s ease; }
+        nav a:hover { color: var(--primary-color); }
+        .upload-link { color: #007bff !important; font-weight: 600; }
+        .book-btn { background-color: var(--accent-color); color: var(--white) !important; padding: 10px 22px; border-radius: 4px; font-weight: 600; }
+        .hero { text-align: center; padding: 80px 20px 40px 20px; max-width: 900px; margin: 0 auto; }
+        .hero h1 { font-size: 3.5rem; color: var(--primary-color); margin: 0 0 20px 0; font-weight: 800; }
+        .hero p { font-size: 1.25rem; color: var(--text-light); max-width: 700px; margin: 0 auto 35px auto; }
+        .contact-box { background-color: #f4f6f4; border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 0 8px 8px 0; display: inline-block; }
+        .contact-box p { margin: 0 0 10px 0; font-weight: bold; color: var(--primary-color); }
+        .phone-links a { color: var(--primary-color); text-decoration: none; font-size: 1.2rem; font-weight: 700; margin: 0 15px; border-bottom: 2px solid var(--accent-color); }
+        .section-header { text-align: center; margin-top: 60px; margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.2rem; color: var(--primary-color); margin: 0; }
+        .photo-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 0 20px; max-width: 1200px; margin: 0 auto 100px auto; }
+        .photo-item { background-color: var(--white); border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); overflow: hidden; display: flex; flex-direction: column; }
+        .photo-item img { width: 100%; height: 260px; object-fit: cover; display: block; }
+        .photo-text { padding: 20px; text-align: center; }
+        .photo-text h3 { margin: 0; font-size: 1.2rem; color: var(--primary-color); }
+    </style>
+</head>
+<body>
+    <div class="top-banner">✦ BOOKINGS OPEN FOR YOUR NEXT GETAWAY ✦</div>
+    <header>
+        <nav>
+            <a href="/" class="logo">The Heaven Rock</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/upload" class="upload-link">➕ Add Photos</a></li>
+                <li><a href="tel:9666332255" class="book-btn">Book Now</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="hero">
+        <h1>Escape to Heaven Rock</h1>
+        <p>A private luxury farmhouse designed beautifully for family getaways, private gatherings, and life's major milestones.</p>
+        <div class="contact-box">
+            <p>📍 KONDAMADUGU, BIBINAGAR MDL, YADADRI - 508126</p>
+            <div class="phone-links">
+                <a href="tel:9666332255">Call 9666332255</a>
+                <a href="tel:9949214746">Call 9949214746</a>
+            </div>
+        </div>
+    </div>
+    <div class="section-header">
+        <h2>Your Private Oasis</h2>
+    </div>
+    <div class="photo-gallery">
+        {% for photo in photos %}
+            <div class="photo-item">
+                <img src="{{ photo['file_path'] }}" alt="{{ photo['alt_text'] }}">
+                <div class="photo-text">
+                    <h3>{{ photo['title'] }}</h3>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+"""
+
+# ----------------------------------------------------
+# 2. THE UPLOAD DASHBOARD TEMPLATE (upload.html)
+# ----------------------------------------------------
 UPLOAD_TEMPLATE = """
 <!DOCTYPE html>
 <html>
@@ -25,7 +116,7 @@ UPLOAD_TEMPLATE = """
 </head>
 <body>
     <div class="form-container">
-        <h2>Upload New Photo to Gallery</h2>
+        <h2>Upload New Photo</h2>
         <form action="/upload" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Photo Title</label>
@@ -33,7 +124,7 @@ UPLOAD_TEMPLATE = """
             </div>
             <div class="form-group">
                 <label>Description (Alt Text)</label>
-                <input type="text" name="alt_text" required placeholder="e.g., Garden view farmhouse entrance">
+                <input type="text" name="alt_text" required placeholder="e.g., Garden view entry">
             </div>
             <div class="form-group">
                 <label>Select Image</label>
@@ -58,17 +149,11 @@ def get_db_photos():
 
 @app.route('/')
 def home():
-    # Looks for index.html folder automatically
     db_photos = get_db_photos()
-    try:
-        return render_template('index.html', photos=db_photos)
-    except:
-        # Fallback if folder structure template is misplaced
-        return render_template_string("<h1>Server Active!</h1><p>Move your index.html into a folder named 'templates' inside your workspace directory to see the resort design framework.</p>")
+    return render_template_string(INDEX_TEMPLATE, photos=db_photos)
 
 @app.route('/upload', methods=['GET'])
 def upload_page():
-    # Bypasses local folder issues to guarantee form rendering
     return render_template_string(UPLOAD_TEMPLATE)
 
 @app.route('/upload', methods=['POST'])
