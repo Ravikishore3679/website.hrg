@@ -8,7 +8,7 @@ UPLOAD_FOLDER = 'static'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # ----------------------------------------------------
-# 1. THE MAIN GALLERY TEMPLATE (index.html)
+# 1. THE MAIN GALLERY, AMENITIES, MAP & DELETE TEMPLATE
 # ----------------------------------------------------
 INDEX_TEMPLATE = """
 <!DOCTYPE html>
@@ -25,6 +25,7 @@ INDEX_TEMPLATE = """
             --text-light: #666666;
             --bg-light: #fdfdfd;
             --white: #ffffff;
+            --danger-color: #dc3545;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
@@ -41,19 +42,37 @@ INDEX_TEMPLATE = """
         nav a:hover { color: var(--primary-color); }
         .upload-link { color: #007bff !important; font-weight: 600; }
         .book-btn { background-color: var(--accent-color); color: var(--white) !important; padding: 10px 22px; border-radius: 4px; font-weight: 600; }
+        
         .hero { text-align: center; padding: 80px 20px 40px 20px; max-width: 900px; margin: 0 auto; }
         .hero h1 { font-size: 3.5rem; color: var(--primary-color); margin: 0 0 20px 0; font-weight: 800; }
         .hero p { font-size: 1.25rem; color: var(--text-light); max-width: 700px; margin: 0 auto 35px auto; }
-        .contact-box { background-color: #f4f6f4; border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 0 8px 8px 0; display: inline-block; }
+        .contact-box { background-color: #f4f6f4; border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 0 8px 8px 0; display: inline-block; margin-bottom: 20px; }
         .contact-box p { margin: 0 0 10px 0; font-weight: bold; color: var(--primary-color); }
         .phone-links a { color: var(--primary-color); text-decoration: none; font-size: 1.2rem; font-weight: 700; margin: 0 15px; border-bottom: 2px solid var(--accent-color); }
-        .section-header { text-align: center; margin-top: 60px; margin-bottom: 40px; }
-        .section-header h2 { font-size: 2.2rem; color: var(--primary-color); margin: 0; }
+        
+        .map-btn { display: inline-block; background-color: #007bff; color: white !important; font-weight: 600; text-decoration: none; padding: 10px 20px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,123,255,0.2); transition: background 0.2s; margin-top: 10px; }
+        .map-btn:hover { background-color: #0056b3; }
+
+        .section-header { text-align: center; margin-top: 80px; margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.2rem; color: var(--primary-color); margin: 0; font-weight: 700; position: relative; display: inline-block; }
+        .section-header h2::after { content: ''; display: block; width: 50px; height: 3px; background-color: var(--accent-color); margin: 10px auto 0 auto; border-radius: 2px; }
+        
+        .amenities-container { max-width: 1100px; margin: 0 auto 40px auto; padding: 0 20px; }
+        .amenities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .amenity-card { background-color: var(--white); border: 1px solid #ebebeb; border-radius: 8px; padding: 24px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s ease; }
+        .amenity-card:hover { transform: translateY(-3px); border-color: var(--accent-color); }
+        .amenity-icon { font-size: 2rem; min-width: 40px; display: inline-flex; justify-content: center; }
+        .amenity-info h4 { margin: 0; font-size: 1.05rem; color: var(--primary-color); font-weight: 600; }
+
         .photo-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 0 20px; max-width: 1200px; margin: 0 auto 100px auto; }
-        .photo-item { background-color: var(--white); border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); overflow: hidden; display: flex; flex-direction: column; }
+        .photo-item { background-color: var(--white); border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); overflow: hidden; display: flex; flex-direction: column; position: relative; }
         .photo-item img { width: 100%; height: 260px; object-fit: cover; display: block; }
-        .photo-text { padding: 20px; text-align: center; }
-        .photo-text h3 { margin: 0; font-size: 1.2rem; color: var(--primary-color); }
+        .photo-text { padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
+        .photo-text h3 { margin: 0 0 15px 0; font-size: 1.2rem; color: var(--primary-color); }
+        
+        /* New Delete Button Style */
+        .delete-btn { background-color: var(--white); color: var(--danger-color); border: 1px solid var(--danger-color); padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease; align-self: center; }
+        .delete-btn:hover { background-color: var(--danger-color); color: var(--white); }
     </style>
 </head>
 <body>
@@ -68,6 +87,7 @@ INDEX_TEMPLATE = """
             </ul>
         </nav>
     </header>
+    
     <div class="hero">
         <h1>Escape to Heaven Rock</h1>
         <p>A private luxury farmhouse designed beautifully for family getaways, private gatherings, and life's major milestones.</p>
@@ -78,7 +98,52 @@ INDEX_TEMPLATE = """
                 <a href="tel:9949214746">Call 9949214746</a>
             </div>
         </div>
+        <div>
+            <!-- Google Maps Web Navigation Shortcut Link -->
+            <a href="https://google.com" target="_blank" class="map-btn">📍 Open in Google Maps</a>
+        </div>
     </div>
+
+    <div class="section-header">
+        <h2>Premium Amenities</h2>
+    </div>
+    <div class="amenities-container">
+        <div class="amenities-grid">
+            <div class="amenity-card">
+                <div class="amenity-icon">🏊‍♂️</div>
+                <div class="amenity-info"><h4>Swimming Pool</h4></div>
+            </div>
+            <div class="amenity-card">
+                <div class="amenity-icon">🏡</div>
+                <div class="amenity-info"><h4>Spacious Lawn</h4></div>
+            </div>
+            <div class="amenity-card">
+                <div class="amenity-icon">📺</div>
+                <div class="amenity-info"><h4>Living Room with 65" TV</h4></div>
+            </div>
+            <div class="amenity-card">
+                <div class="amenity-icon">🛏️</div>
+                <div class="amenity-info"><h4>3BHK with Attached Bath & AC</h4></div>
+            </div>
+            <div class="amenity-card">
+                <div class="amenity-icon">⛱️</div>
+                <div class="amenity-info"><h4>Pergola in the Lawn to Hangout</h4></div>
+            </div>
+            <div class="amenity-card">
+                <div class="amenity-icon">🎏</div>
+                <div class="amenity-info"><h4>Exclusive Small Pond with Koi</h4></div>
+            </div>
+            <div class="amenity-card">
+                <div class="amenity-icon">🔥</div>
+                <div class="amenity-info"><h4>Barbecue & Bonfire Area</h4></div>
+            </div>
+            <div class="amenity-card">
+                <div class="amenity-icon">🍳</div>
+                <div class="amenity-info"><h4>Fully Equipped Kitchen</h4></div>
+            </div>
+        </div>
+    </div>
+
     <div class="section-header">
         <h2>Your Private Oasis</h2>
     </div>
@@ -88,6 +153,10 @@ INDEX_TEMPLATE = """
                 <img src="{{ photo['file_path'] }}" alt="{{ photo['alt_text'] }}">
                 <div class="photo-text">
                     <h3>{{ photo['title'] }}</h3>
+                    <!-- Dynamic form triggering the deletion of this photo card item by ID -->
+                    <form action="/delete/{{ photo['id'] }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this photo?');">
+                        <button type="submit" class="delete-btn">🗑️ Delete Photo</button>
+                    </form>
                 </div>
             </div>
         {% endfor %}
@@ -173,6 +242,33 @@ def handle_upload():
         conn.commit()
         conn.close()
         
+    return redirect(url_for('home'))
+
+if __name__ == '__main__':
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+    app.run(debug=True)
+
+@app.route('/delete/int:photo_id', methods=['POST'])
+def delete_photo(photo_id):
+    conn = sqlite3.connect('website.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    # Retrieve file path to remove the file from your computer disk storage
+    cursor.execute('SELECT file_path FROM photos WHERE id = ?', (photo_id,))
+    photo = cursor.fetchone()
+    if photo:
+        file_path = photo['file_path']
+        # Safely attempt removing the local physical image asset file if it exists
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except:
+                pass
+            # Wipe data record row from SQLite tables
+            cursor.execute('DELETE FROM photos WHERE id = ?', (photo_id,))
+            conn.commit()
+    conn.close()
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
