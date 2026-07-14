@@ -1,160 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <head>
-    <meta charset="UTF-8">
-    <title>My Photo Website</title>
-    <style>
-        /* Paste the CSS code from Step 2 here */
-    </style>
-    </head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Heaven Rock Guest House | Private Luxury Farmhouse</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for premium typography -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>The Heaven Rock Guest House</title>
+    <style>
+        /* Modern CSS Variables for easy color changes */
+        :root {
+            --primary-color: #1b3d2f; /* Premium Dark Luxury Green */
+            --accent-color: #c5a880;  /* Elegant Gold tint */
+            --text-dark: #222222;
+            --text-light: #666666;
+            --bg-light: #fdfdfd;
+            --white: #ffffff;
+        }
+
+        /* Base Reset */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Top Notification Bar */
+        .top-banner {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .book-btn {
+            background-color: var(--accent-color);
+            color: var(--white) !important;
+            padding: 10px 22px;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-btn:hover {
+            background-color: #b3956d;
+        }
+
+        /* Premium Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 60px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin: 0 0 20px 0;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 35px auto;
+        }
+
+        /* Quick Info / Call Section */
+        .contact-box {
+            background-color: #f4f6f4;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .contact-box p {
+            margin: 0 0 10px 0;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            letter-spacing: 0.5px;
+        }
+
+        .phone-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0 15px;
+            border-bottom: 2px solid var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        .phone-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Section Headings */
+        .section-header {
+            text-align: center;
+            margin-top: 80px;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Photo Gallery Grid Layout */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto 100px auto;
+        }
+
+        .photo-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-text {
+            padding: 20px;
+            text-align: center;
+            background-color: var(--white);
+        }
+
+        .photo-text h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Responsive Mobile Layout Adaptations */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            nav ul { display: none; } /* Simplifies header for mobile view */
+            .phone-links a { display: block; margin: 10px 0; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Header & Navigation -->
+    <!-- Top Alert Notification Area -->
+    <div class="top-banner">
+        ✦ BOOKINGS OPEN FOR YOUR NEXT GETAWAY ✦
+    </div>
+
+    <!-- Main Navigation Header -->
     <header>
-        <div class="navbar container">
+        <nav>
             <div class="logo">The Heaven Rock</div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#amenities">Amenities</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-            <a href="tel:+919666332255" class="btn btn-nav">Book Now</a>
-        </div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Amenities</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="tel:9666332255" class="book-btn">Book Now</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content container">
-            <h1>Escape to Heaven Rock</h1>
-            <p>A private luxury farmhouse designed for family getaways, gatherings, and unforgettable milestones.</p>
-            <div class="hero-buttons">
-                <a href="tel:+919666332255" class="btn btn-primary">Call 9666332255</a>
-                <a href="tel:+919949214746" class="btn btn-secondary">Call 9949214746</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about container">
-        <div class="section-title">
-            <h2>Your Private Oasis</h2>
-            <div class="line"></div>
-        </div>
-        <div class="about-grid">
-            <div class="about-text">
-                <h3>Peaceful Vibes & Unmatched Comfort</h3>
-                <p>Located in the serene surroundings of Kondamadugu, Bibinagar, Heaven Rock Guest House offers the perfect mix of luxury and peace. Whether you are planning a weekend family staycation, a lively party with friends, or a memorable celebration, our premium spaces are built to curate unforgettable experiences.</p>
-                <p>Enjoy absolute privacy, fresh air, and curated hospitality tailored to your dynamic hosting needs.</p>
-            </div>
-            <div class="about-card">
-                <h4>Bookings Are Open!</h4>
-                <p>Secure your dates for upcoming weekends, corporate events, or private getaways.</p>
-                <p class="location-tag">📍 Kondamadugu, Bibinagar Mdl, Yadadri - 508126</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Amenities Section -->
-    <section id="amenities" class="amenities-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Premium Features</h2>
-                <div class="line"></div>
-            </div>
-            <div class="amenities-grid">
-                <div class="amenity-item">
-                    <div class="icon">✨</div>
-                    <h3>Luxury Living</h3>
-                    <p>Beautiful, fully-furnished 3-bedroom setup built for premium comfort.</p>
-                </div>
-                <div class="amenity-item">
-                    <div class="icon">🏊‍♂️</div>
-                    <h3>Sparkling Pool</h3>
-                    <p>A crystal clear, well-maintained pool perfect for refreshing swims.</p>
-                </div>
-                <div class="amenity-item">
-                    <div class="icon">🏡</div>
-                    <h3>Lush Green Lawn</h3>
-                    <p>Expansive outdoor garden space ideal for outdoor games and events.</p>
-                </div>
-                <div class="amenity-item">
-                    <div class="icon">🎉</div>
-                    <h3>Events & Parties</h3>
-                    <p>Perfect venue layout specialized for sangeet, anniversaries, and gatherings.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-        <!-- Contact, Map & Interactive Form Section -->
-    <section id="contact" class="contact container">
+    <!-- Main Introduction Hero Section -->
+    <div class="hero">
+        <h1>Escape to Heaven Rock</h1>
+        <p>A private luxury farmhouse designed beautifully for family getaways, private gatherings, and life's major milestones.</p>
+        
+        <!-- Location & Contact Block based on your actual site details -->
         <div class="contact-box">
-            <h2>Ready to Plan Your Stay?</h2>
-            <p>Connect directly with us to check availability, pricing options, and customizable event packages.</p>
-            
-            <!-- Google Maps Active Embed Widget -->
-            <div class="map-container">
-                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3731.2585205184787!2d78.76631727500676!3d17.479494900145436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb71d89ec671c5%3A0x5737013f785eae17!2sHEAVEN%20ROCK%20GUEST%20HOUSE!5e1!3m2!1sen!2sin!4v1783877773896!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-   
-
-
+            <p>📍 KONDAMADUGU, BIBINAGAR MDL, YADADRI - 508126</p>
+            <div class="phone-links">
+                <a href="tel:9666332255">Call 9666332255</a>
+                <a href="tel:9949214746">Call 9949214746</a>
             </div>
-<div class="photo-gallery">
-    <!-- Flask will loop through every photo found in the database -->
-    {% for photo in photos %}
-        <div class="photo-item">
-            <h3>{{ photo['title'] }}</h3>
-            <img src="{{ photo['file_path'] }}" alt="{{ photo['alt_text'] }}" width="300">
         </div>
-    {% endfor %}
-</div>
+    </div>
 
-            <!-- Working Interactive Contact Form via Formspree -->
-            <!-- REPLACE 'your_formspree_id' with your actual Formspree endpoint ID later -->
-            <form action="https://formspree.io" method="POST" class="interactive-form">
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="_replyto" placeholder="Your Email Address" required>
-                </div>
-                <div class="form-group">
-                    <input type="tel" name="phone" placeholder="Your Phone Number" required>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" rows="4" placeholder="Tell us about your event / stay dates..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary form-submit">Send Inquiry</button>
-            </form>
+    <!-- Gallery Context Title -->
+    <div class="section-header">
+        <h2>Your Private Oasis</h2>
+        <p>Peaceful Vibes & Unmatched Comfort</p>
+    </div>
 
-            <div class="contact-details">
-                <div class="contact-phone">
-                    <strong>Primary Contact:</strong> <a href="tel:+919666332255">9666332255</a>
+    <!-- Dynamic Python Backend Loop Structure for Database Photos -->
+    <div class="photo-gallery">
+        {% for photo in photos %}
+            <div class="photo-item">
+                <img src="{{ photo['file_path'] }}" alt="{{ photo['alt_text'] }}">
+                <div class="photo-text">
+                    <h3>{{ photo['title'] }}</h3>
                 </div>
-                <div class="contact-phone">
-                    <strong>Alternative Contact:</strong> <a href="tel:+919949214746">9949214746</a>
-                </div>
-                <p class="address"><strong>Location:</strong> Kondamadugu, Bibinagar Mdl, Yadadri - 508126</p>
             </div>
-            <p class="footer-note">&copy; 2026 The Heaven Rock Guest House. All Rights Reserved.</p>
-        </div>
-    </section>
-
+        {% endfor %}
+    </div>
 
 </body>
 </html>
